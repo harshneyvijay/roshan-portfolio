@@ -11,7 +11,11 @@
 
 ## Portfolio Site
 
-## ![Portfolio Site](pics/image1.png)
+![Portfolio Site](pics/image1.png)
+
+![Portfolio Site](pics/image2.png)
+
+![Portfolio Site](pics/image3.png)
 
 
 ## Contact Form
