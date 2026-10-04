@@ -46,7 +46,7 @@
       </div>
       {% if e.logo %}<img class="edu-logo" src="{{ e.logo.url }}" alt="{{ e.institution }} logo" loading="lazy">{% endif %}
     </li>
-    {% empty %}<li class="empty">Education entries added in the CMS appear here.</li>{% endfor %}
+    {% empty %}<li class="empty">Education entries once added appear here.</li>{% endfor %}
   </ol>
 </div></section>
 
@@ -57,7 +57,7 @@
     <div class="skill-col"><h3>{{ cat }}</h3>
       <ul>{% for s in items %}<li>{% if s.icon %}<span class="ico" aria-hidden="true">{{ s.icon }}</span>{% endif %}{{ s.name }}</li>{% endfor %}</ul>
     </div>
-    {% empty %}<p class="empty">Skills added in the CMS appear here.</p>{% endfor %}
+    {% empty %}<p class="empty">Skills once added appear here.</p>{% endfor %}
   </div>
 </div></section>
 
@@ -81,7 +81,7 @@
         {% if j.link|is_real %}<a class="link" href="{{ j.link|href }}" target="_blank" rel="noopener">Learn more</a>{% endif %}
       </article>
     </li>
-    {% empty %}<li class="empty">Journey entries added in the CMS appear here.</li>{% endfor %}
+    {% empty %}<li class="empty">Journey entries once added appear here.</li>{% endfor %}
   </ol>
 </div></section>
 
@@ -102,13 +102,13 @@
     {% if resume.preview_image %}<img src="{{ resume.preview_image.url }}" alt="Preview of {{ resume.title }}" loading="lazy">{% else %}<div class="ph doc"></div>{% endif %}
     <span><strong>{{ resume.title }}</strong><span class="meta">{{ resume.version }} · updated {{ resume.uploaded_at|date:"M Y" }}</span><span class="link">View resume</span></span>
   </a>
-  {% else %}<p class="empty">The active resume appears here once uploaded in the CMS.</p>{% endif %}
+  {% else %}<p class="empty">The resume appears here once uploaded.</p>{% endif %}
 </div></section>
 
 <section class="sec" id="contact"><div class="wrap sec-grid">
   <h2 class="sec-title">Contact</h2>
   <div class="contact">
-    <p class="lead-sm">Have a question or a project in mind? Send a message{% if profile.email|is_real or '@' in profile.email %} or write to <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>{% endif %}.</p>
+    <p class="lead-sm">Have a question or a project in mind? Let's talk here{% if profile.email|is_real or '@' in profile.email %} or write to <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>{% endif %}.</p>
     <form method="post" action="/contact/" class="form">{% csrf_token %}
       <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
       <label>Name<input name="name" required maxlength="120" autocomplete="name"></label>
