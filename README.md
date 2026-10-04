@@ -1,5 +1,5 @@
 # Portfolio + CMS
-A portfolio site its owner can run entirely without touching code. A custom Django CMS handles projects, blog drafts, certifications, resume PDFs, file uploads and contact messages, with role-based access and S3-compatible storage. Free-tier deployable on Render, Neon and Supabase.
+A portfolio site its owner can run entirely without touching code. A custom Django CMS handles projects, blog drafts, certifications, resume PDFs, multi-file uploads and contact messages, with draft/publish workflows, role-based access and S3-compatible storage. Free-tier deployable on Render, Neon and Supabase.
 
 ### Deployed at [https://portfolio-cms-413i.onrender.com/]
 
