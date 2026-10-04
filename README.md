@@ -4,6 +4,11 @@
 ### Deployed at [https://portfolio-cms-413i.onrender.com/]
 
 
+## CMS
+
+![CMS](pics/image5.png)
+
+
 ## Portfolio Site
 
 ## ![Portfolio Site](pics/image1.png)
@@ -12,11 +17,6 @@
 ## Contact Form
 
 ![Contact](pics/image4.png)
-
-
-## CMS
-
-![CMS](pics/image5.png)
 
 
 ## Flow
