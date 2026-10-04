@@ -1,0 +1,26 @@
+{% extends "cms/base.html" %}{% block title %}{{ cfg.title }}{% endblock %}
+{% block content %}
+<div class="head"><div><h1>{{ cfg.title }}</h1><p class="sub" style="margin:0">{{ rows|length }} item{{ rows|length|pluralize }}</p></div>
+ <a class="btn" href="{% url 'cms_new' key %}">Add {{ cfg.singular }}</a></div>
+{% if cfg.search or flt_choices or key == 'blog' %}
+<form class="filters" method="get" role="search">
+ {% if cfg.search %}<input type="search" name="q" value="{{ q }}" placeholder="Search" aria-label="Search">{% endif %}
+ {% if flt_choices %}<select name="f" aria-label="Filter"><option value="">All</option>{% for v, l in flt_choices %}<option value="{{ v }}" {% if v == flt_val %}selected{% endif %}>{{ l }}</option>{% endfor %}</select>{% endif %}
+ {% if key == 'blog' %}<select name="status" aria-label="Status"><option value="">Any status</option><option value="draft" {% if status == 'draft' %}selected{% endif %}>Draft</option><option value="published" {% if status == 'published' %}selected{% endif %}>Published</option></select>{% endif %}
+ <button class="btn ghost" type="submit">Apply</button>
+</form>{% endif %}
+<div class="tbl-wrap"><table><thead><tr>{% if cfg.thumb %}<th>Preview</th>{% endif %}{% for h in headers %}<th>{{ h }}</th>{% endfor %}{% for lab, a, on in rows.0.toggles %}<th>{{ lab }}</th>{% endfor %}<th>Actions</th></tr></thead><tbody>
+{% for r in rows %}<tr>
+ {% if cfg.thumb %}<td>{% if r.thumb %}<img class="th" src="{{ r.thumb }}" alt="">{% else %}<span class="th none"></span>{% endif %}</td>{% endif %}
+ {% for c in r.cells %}<td>{{ c }}</td>{% endfor %}
+ {% for lab, attr, on in r.toggles %}<td><form method="post" action="{% url 'cms_toggle' key r.obj.pk %}">{% csrf_token %}<input type="hidden" name="attr" value="{{ attr }}"><input type="hidden" name="next" value="{{ request.get_full_path }}">
+  <button class="st {% if on %}on{% endif %}" type="submit" title="Click to change">{% if attr == 'status' %}{% if on %}PUBLISHED{% else %}DRAFT{% endif %}{% elif on %}YES{% else %}NO{% endif %}</button></form></td>{% endfor %}
+ <td><div class="acts">
+  <a class="btn sm ghost" href="{% url 'cms_edit' key r.obj.pk %}">Edit</a>
+  {% if r.view %}<a class="btn sm ghost" href="{{ r.view }}" target="_blank" rel="noopener">View</a>{% endif %}
+  {% if cfg.orderable %}<form method="post" action="{% url 'cms_move' key r.obj.pk 'up' %}">{% csrf_token %}<button class="btn sm ghost" aria-label="Move up">Up</button></form><form method="post" action="{% url 'cms_move' key r.obj.pk 'down' %}">{% csrf_token %}<button class="btn sm ghost" aria-label="Move down">Down</button></form>{% endif %}
+  <a class="btn sm danger" href="{% url 'cms_delete' key r.obj.pk %}">Delete</a>
+ </div></td></tr>
+{% empty %}<tr><td colspan="20" class="muted">Nothing here yet. Use “Add {{ cfg.singular }}” to create the first one.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

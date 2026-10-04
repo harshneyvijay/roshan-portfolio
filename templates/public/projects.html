@@ -1,0 +1,10 @@
+{% extends "public/base.html" %}
+{% block title %}Projects — {{ site.site_name }}{% endblock %}
+{% block section %}projects{% endblock %}
+{% block content %}
+<section class="sec page-top"><div class="wrap">
+  <a class="back" href="/#projects">Back to home</a>
+  <h1 class="page-h">Projects</h1>
+  {% include "public/_projects.html" %}
+</div></section>
+{% endblock %}

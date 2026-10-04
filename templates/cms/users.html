@@ -1,0 +1,8 @@
+{% extends "cms/base.html" %}{% block title %}Users{% endblock %}
+{% block content %}<h1>Users &amp; roles</h1><p class="sub">Administrators have full access. Editors manage content but can't manage users.</p>
+<div class="tbl-wrap" style="margin-bottom:24px"><table><thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead><tbody>
+{% for u in users %}<tr><td>{{ u.username }}</td><td>{{ u.email }}</td><td>{% if u.is_superuser %}Administrator{% else %}Editor{% endif %}</td>
+<td>{% if u != request.user %}<form method="post" action="{% url 'cms_user_delete' u.pk %}" data-confirm="Delete user {{ u.username }}?">{% csrf_token %}<button class="btn sm danger">Delete</button></form>{% else %}<span class="muted">You</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+<form class="form-card" method="post" style="max-width:480px"><h2 style="margin-top:0">Add user</h2>{% csrf_token %}
+{% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{% if f.help_text %}<p class="help">{{ f.help_text }}</p>{% endif %}{% for e in f.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>{% endfor %}
+<button class="btn">Create user</button></form>{% endblock %}

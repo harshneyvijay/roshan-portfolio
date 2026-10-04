@@ -1,0 +1,34 @@
+{% extends "public/base.html" %}{% load portfolio %}
+{% block title %}{{ p.title }} — {{ site.site_name }}{% endblock %}
+{% block desc %}{{ p.short_description }}{% endblock %}
+{% block ogtitle %}{{ p.title }}{% endblock %}{% block ogdesc %}{{ p.short_description }}{% endblock %}
+{% block ogimage %}{% if p.thumbnail %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ p.thumbnail.url }}">{% endif %}{% endblock %}
+{% block section %}projects{% endblock %}
+{% block content %}
+<article class="wrap case">
+  {% if preview %}<p class="flash info">Preview — {% if not p.published %}this project is unpublished and not visible to visitors.{% else %}published.{% endif %} <a href="/cms/projects/{{ p.pk }}/edit/">Back to editing</a></p>{% endif %}
+  <a class="back" href="/#projects">Back to projects</a>
+  <header class="case-head">
+    <h1 class="page-h">{{ p.title }}</h1>
+    <p class="lead-sm">{{ p.short_description }}</p>
+    <p class="meta">{{ p.year }}</p>
+    <div class="cta">
+      {% if p.live_url|is_real %}<a class="btn" href="{{ p.live_url|href }}" target="_blank" rel="noopener">Live demo</a>{% endif %}
+      {% if p.github_url|is_real %}<a class="btn ghost" href="{{ p.github_url|href }}" target="_blank" rel="noopener">GitHub</a>{% endif %}
+    </div>
+  </header>
+  {% if p.thumbnail %}<img class="case-hero" src="{{ p.thumbnail.url }}" alt="{{ p.title }} hero image">{% endif %}
+  <div class="case-body">
+    <aside><h2 class="k">Technologies</h2><ul class="plain tech">{% for t in p.tech_list %}<li>{{ t }}</li>{% endfor %}</ul></aside>
+    <div class="prose">
+      {% if p.full_description %}<h2>Overview</h2>{{ p.full_description|richtext }}{% endif %}
+      {% if p.problem %}<h2>Problem</h2>{{ p.problem|richtext }}{% endif %}
+      {% if p.solution %}<h2>Solution</h2>{{ p.solution|richtext }}{% endif %}
+      {% if p.feature_list %}<h2>Features</h2><ul>{% for f in p.feature_list %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
+      {% if p.implementation %}<h2>Implementation</h2>{{ p.implementation|richtext }}{% endif %}
+    </div>
+  </div>
+  {% if p.images.all %}<h2 class="k shots-h">Screenshots</h2>
+  <div class="shots">{% for i in p.images.all %}<figure><a href="{{ i.image.url }}" target="_blank" rel="noopener"><img src="{{ i.image.url }}" alt="{{ i.caption|default:p.title }} screenshot {{ forloop.counter }}" loading="lazy"></a>{% if i.caption %}<figcaption>{{ i.caption }}</figcaption>{% endif %}</figure>{% endfor %}</div>{% endif %}
+</article>
+{% endblock %}

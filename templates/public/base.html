@@ -1,0 +1,42 @@
+{% load static portfolio %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site.seo_title|default:site.site_name }}{% endblock %}</title>
+<meta name="description" content="{% block desc %}{{ site.seo_description }}{% endblock %}">
+<meta property="og:site_name" content="{{ site.site_name }}">
+<meta property="og:title" content="{% block ogtitle %}{{ site.seo_title|default:site.site_name }}{% endblock %}">
+<meta property="og:description" content="{% block ogdesc %}{{ site.seo_description }}{% endblock %}">
+<meta property="og:type" content="website">
+{% block ogimage %}{% if site.og_image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}">{% endif %}{% endblock %}
+{% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body data-section="{% block section %}{% endblock %}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/">{{ profile.name }}</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav" id="menuBtn">Menu</button>
+    <nav id="nav" aria-label="Primary">
+      {% for slug, label in nav %}<a href="/#{{ slug }}" data-s="{{ slug }}">{{ label }}</a>{% endfor %}
+    </nav>
+  </div>
+</header>
+<main id="main">
+{% if messages %}<div class="wrap flash-wrap">{% for m in messages %}<p class="flash {{ m.tags }}" role="status">{{ m }}</p>{% endfor %}</div>{% endif %}
+{% block content %}{% endblock %}
+</main>
+<footer class="foot" id="footer">
+  <div class="wrap foot-in">
+    <div><strong>{{ profile.name }}</strong><p>{{ site.footer_text }}</p></div>
+    <div><p class="k">Contact</p><p>{% if site.primary_email|is_real or '@' in site.primary_email %}<a href="mailto:{{ site.primary_email }}">{{ site.primary_email }}</a>{% else %}{{ site.primary_email }}{% endif %}</p></div>
+    <div><p class="k">Elsewhere</p><ul class="plain">{% for s in socials %}<li><a href="{{ s.url|href }}" {% if s.url|is_real %}target="_blank" rel="noopener"{% endif %}>{{ s.label }}</a></li>{% endfor %}</ul></div>
+  </div>
+  <div class="wrap legal">© {% now "Y" %} {{ site.site_name }}</div>
+</footer>
+<script src="{% static 'js/site.js' %}" defer></script>
+</body></html>

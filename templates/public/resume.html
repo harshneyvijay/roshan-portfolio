@@ -1,0 +1,13 @@
+{% extends "public/base.html" %}
+{% block title %}Resume — {{ site.site_name }}{% endblock %}
+{% block section %}resume{% endblock %}
+{% block content %}
+<article class="wrap article wide">
+  <a class="back" href="/#resume">Back to home</a>
+  <h1 class="page-h">Resume</h1>
+  {% if r %}
+    <p class="meta">{{ r.title }} · {{ r.version }} · updated {{ r.uploaded_at|date:"d M Y" }}</p>
+    {% include "public/_pdf.html" with file=r.pdf label=r.title %}
+  {% else %}<p class="empty">No resume is active yet. Upload and activate one in the CMS.</p>{% endif %}
+</article>
+{% endblock %}

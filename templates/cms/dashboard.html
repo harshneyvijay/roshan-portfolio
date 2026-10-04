@@ -1,0 +1,11 @@
+{% extends "cms/base.html" %}{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1><p class="sub">Everything on the public site is managed from here.</p>
+<div class="stats">{% for label, n, key in stats %}
+ <a class="stat {% if key == 'messages' and n %}hot{% endif %}" href="{% if key == 'messages' %}{% url 'cms_messages' %}{% else %}{% url 'cms_list' key %}{% endif %}"><b>{{ n }}</b><span>{{ label }}</span></a>{% endfor %}</div>
+<div class="cols">
+ <section class="panel"><h2>Recent projects</h2><ul>{% for p in projects %}<li><a href="{% url 'cms_edit' 'projects' p.pk %}">{{ p.title }}</a><span class="muted">{% if p.published %}Published{% else %}Hidden{% endif %}</span></li>{% empty %}<li class="muted">No projects yet.</li>{% endfor %}</ul></section>
+ <section class="panel"><h2>Recent blog posts</h2><ul>{% for p in posts %}<li><a href="{% url 'cms_edit' 'blog' p.pk %}">{{ p.title }}</a><span class="muted">{{ p.get_status_display }}</span></li>{% empty %}<li class="muted">No posts yet.</li>{% endfor %}</ul></section>
+ <section class="panel"><h2>Recent messages</h2><ul>{% for m in msgs %}<li><span>{{ m.name }} <span class="muted">— {{ m.message|truncatechars:40 }}</span></span><span class="muted">{% if m.is_read %}Read{% else %}<b>Unread</b>{% endif %}</span></li>{% empty %}<li class="muted">No messages yet.</li>{% endfor %}</ul></section>
+ <section class="panel"><h2>Recent activity</h2><ul>{% for a in activity %}<li><span>{{ a.text }}</span><span class="muted">{{ a.user }} · {{ a.at|timesince }} ago</span></li>{% empty %}<li class="muted">Changes you make will be listed here.</li>{% endfor %}</ul></section>
+</div>{% endblock %}

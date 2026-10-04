@@ -1,0 +1,11 @@
+{% load portfolio %}
+<div class="grid3">
+{% for p in projects %}
+  <article class="card">
+    <a class="card-img" href="{{ p.get_absolute_url }}" tabindex="-1" aria-hidden="true">{% if p.thumbnail %}<img src="{{ p.thumbnail.url }}" alt="" loading="lazy">{% else %}<div class="ph"></div>{% endif %}</a>
+    <h3><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h3>
+    <p>{{ p.short_description }}</p>
+    <a class="link" href="{{ p.get_absolute_url }}">View project</a>
+  </article>
+{% empty %}<p class="empty">Projects published in the CMS appear here.</p>{% endfor %}
+</div>

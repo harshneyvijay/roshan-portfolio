@@ -1,0 +1,10 @@
+<div class="grid3">
+{% for c in certs %}
+  <article class="card">
+    <a class="card-img" href="/certifications/{{ c.pk }}/" tabindex="-1" aria-hidden="true">{% if c.image %}<img src="{{ c.image.url }}" alt="" loading="lazy">{% else %}<div class="ph doc"></div>{% endif %}</a>
+    <h3><a href="/certifications/{{ c.pk }}/">{{ c.title }}</a></h3>
+    <p class="meta">{{ c.organization }}{% if c.issue_date %} · {{ c.issue_date|date:"M Y" }}{% endif %}</p>
+    <a class="link" href="/certifications/{{ c.pk }}/">View credential</a>
+  </article>
+{% empty %}<p class="empty">Published certifications appear here.</p>{% endfor %}
+</div>

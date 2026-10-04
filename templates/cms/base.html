@@ -1,0 +1,37 @@
+{% load static %}<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>{% block title %}CMS{% endblock %} — {{ site.site_name }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/cms.css' %}"></head><body>
+<div class="bar"><strong>{{ site.site_name }}</strong><button id="sideBtn" aria-expanded="false" aria-controls="side">Menu</button></div>
+<div class="shell">
+<aside class="side" id="side" aria-label="CMS navigation">
+ <a class="logo" href="{% url 'cms_dashboard' %}">{{ site.site_name }} · CMS</a>
+ <a class="nl {% if active == 'dashboard' %}on{% endif %}" href="{% url 'cms_dashboard' %}">Dashboard</a>
+ <h4>Content</h4>
+ <a class="nl {% if active == 'profile' %}on{% endif %}" href="{% url 'cms_profile' %}">Profile</a>
+ <a class="nl {% if active == 'education' %}on{% endif %}" href="{% url 'cms_list' 'education' %}">Education</a>
+ <a class="nl {% if active == 'skills' %}on{% endif %}" href="{% url 'cms_list' 'skills' %}">Skills</a>
+ <a class="nl {% if active == 'projects' %}on{% endif %}" href="{% url 'cms_list' 'projects' %}">Projects</a>
+ <a class="nl {% if active == 'journey' %}on{% endif %}" href="{% url 'cms_list' 'journey' %}">Journey</a>
+ <a class="nl {% if active == 'blog' %}on{% endif %}" href="{% url 'cms_list' 'blog' %}">Blog</a>
+ <a class="nl {% if active == 'certifications' %}on{% endif %}" href="{% url 'cms_list' 'certifications' %}">Certifications</a>
+ <a class="nl {% if active == 'resume' %}on{% endif %}" href="{% url 'cms_list' 'resume' %}">Resume</a>
+ <h4>Media</h4>
+ <a class="nl {% if active == 'media' %}on{% endif %}" href="{% url 'cms_media' %}">Media library</a>
+ <h4>Communication</h4>
+ <a class="nl {% if active == 'messages' %}on{% endif %}" href="{% url 'cms_messages' %}">Messages {% if unread %}<span class="badge">{{ unread }}</span>{% endif %}</a>
+ <h4>Website</h4>
+ <a class="nl {% if active == 'social' %}on{% endif %}" href="{% url 'cms_list' 'social' %}">Social links</a>
+ <a class="nl {% if active == 'settings' %}on{% endif %}" href="{% url 'cms_settings' %}">Site settings</a>
+ <h4>Account</h4>
+ <a class="nl {% if active == 'account' %}on{% endif %}" href="{% url 'cms_account' %}">Password</a>
+ {% if is_admin %}<a class="nl {% if active == 'users' %}on{% endif %}" href="{% url 'cms_users' %}">Users &amp; roles</a>{% endif %}
+ <a class="nl" href="/" target="_blank" rel="noopener">View website</a>
+ <form method="post" action="{% url 'cms_logout' %}">{% csrf_token %}<button class="nl" type="submit">Log out ({{ request.user.username }})</button></form>
+</aside>
+<main class="main" id="main">
+ {% for m in messages %}<p class="flash {{ m.tags }}" role="status">{{ m }}</p>{% endfor %}
+ {% block content %}{% endblock %}
+</main></div>
+<script src="{% static 'js/cms.js' %}"></script></body></html>

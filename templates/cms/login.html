@@ -1,0 +1,13 @@
+{% load static %}<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Log in — {{ site.site_name }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/cms.css' %}"></head><body>
+<div class="login"><form class="login-box" method="post">{% csrf_token %}
+ <h1>{{ site.site_name }}</h1><p class="sub">Sign in to manage your website.</p>
+ {% if error %}<p class="flash error" role="alert">{{ error }}</p>{% endif %}
+ <input type="hidden" name="next" value="{{ next }}">
+ <div class="field"><label for="u">Username or email</label><input id="u" name="username" required autofocus autocomplete="username"></div>
+ <div class="field"><label for="p">Password</label><input id="p" name="password" type="password" required autocomplete="current-password"></div>
+ <button class="btn" type="submit">Log in</button>
+</form></div></body></html>

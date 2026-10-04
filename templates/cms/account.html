@@ -1,0 +1,5 @@
+{% extends "cms/base.html" %}{% block title %}Password{% endblock %}
+{% block content %}<h1>Change password</h1>
+<form class="form-card" method="post" style="max-width:480px">{% csrf_token %}
+{% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{% for e in f.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>{% endfor %}
+<button class="btn">Change password</button></form>{% endblock %}

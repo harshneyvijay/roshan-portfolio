@@ -1,0 +1,21 @@
+{% extends "public/base.html" %}{% load portfolio %}
+{% block title %}{{ c.title }} — {{ site.site_name }}{% endblock %}
+{% block desc %}{{ c.title }} issued by {{ c.organization }}{% endblock %}
+{% block section %}certifications{% endblock %}
+{% block content %}
+<article class="wrap article wide">
+  <a class="back" href="/#certifications">Back to certifications</a>
+  <h1 class="page-h">{{ c.title }}</h1>
+  <dl class="facts">
+    <div><dt>Issued by</dt><dd>{{ c.organization }}</dd></div>
+    {% if c.issue_date %}<div><dt>Issued</dt><dd>{{ c.issue_date|date:"d M Y" }}</dd></div>{% endif %}
+    {% if c.expiry_date %}<div><dt>Expires</dt><dd>{{ c.expiry_date|date:"d M Y" }}</dd></div>{% endif %}
+    {% if c.credential_id %}<div><dt>Credential ID</dt><dd>{{ c.credential_id }}</dd></div>{% endif %}
+  </dl>
+  {% if c.description %}<p class="lead-sm">{{ c.description }}</p>{% endif %}
+  {% if c.credential_url|is_real %}<p><a class="link" href="{{ c.credential_url|href }}" target="_blank" rel="noopener">Verify credential</a></p>{% endif %}
+  {% if c.pdf %}{% include "public/_pdf.html" with file=c.pdf label=c.title %}
+  {% elif c.image %}<img class="case-hero" src="{{ c.image.url }}" alt="{{ c.title }} certificate">
+  {% else %}<p class="empty">No document has been uploaded for this certification yet.</p>{% endif %}
+</article>
+{% endblock %}

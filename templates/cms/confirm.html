@@ -1,0 +1,6 @@
+{% extends "cms/base.html" %}{% block title %}Delete{% endblock %}
+{% block content %}<h1>Delete {{ cfg.singular }}?</h1>
+<form class="form-card" method="post">{% csrf_token %}
+ <p>You are about to permanently delete <strong>{{ obj }}</strong>{% if key == 'projects' %}, including its screenshots{% endif %}. Uploaded files attached to it are removed too. This can't be undone.</p>
+ <button class="btn danger" type="submit">Yes, delete</button> <a class="btn ghost" href="{% url 'cms_list' key %}">Cancel</a>
+</form>{% endblock %}

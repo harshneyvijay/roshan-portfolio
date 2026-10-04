@@ -1,0 +1,17 @@
+{% extends "cms/base.html" %}{% load portfolio %}{% block title %}Media library{% endblock %}
+{% block content %}<h1>Media library</h1><p class="sub">Every uploaded image and PDF. Files used by content show where; unused files can be deleted.</p>
+<form class="form-card" style="max-width:none;margin-bottom:20px" method="post" action="{% url 'cms_media_upload' %}" enctype="multipart/form-data">{% csrf_token %}
+ <div class="field" style="margin:0"><label for="files">Upload images or PDFs</label>
+ <input id="files" type="file" name="files" multiple accept="image/*,application/pdf" required>
+ <p class="help">Images up to {{ max_img }} MB (JPG, PNG, WebP, GIF). PDFs up to {{ max_pdf }} MB.</p></div>
+ <p style="margin:12px 0 0"><button class="btn" type="submit">Upload</button></p></form>
+<form class="filters" method="get"><input type="search" name="q" value="{{ q }}" placeholder="Search file name" aria-label="Search">
+ <select name="type" aria-label="Type"><option value="">All types</option><option value="image" {% if typ == 'image' %}selected{% endif %}>Images</option><option value="pdf" {% if typ == 'pdf' %}selected{% endif %}>PDFs</option></select>
+ <button class="btn ghost">Filter</button></form>
+<div class="mgrid">{% for i in items %}<div class="mcard">
+ <a class="mprev" href="{{ i.url }}" target="_blank" rel="noopener">{% if i.kind == 'image' %}<img src="{{ i.url }}" alt="{{ i.name }}" loading="lazy">{% else %}<span class="pdf">{{ i.ext|default:"FILE" }}</span>{% endif %}</a>
+ <div class="mbody"><strong>{{ i.name }}</strong><span class="muted">{{ i.ext }} · {{ i.size|filesize }}{% if i.mod %} · {{ i.mod|date:"d M Y" }}{% endif %}</span>
+ <span class="muted">{% if i.used %}Used by: {{ i.used }}{% else %}Not used{% endif %}</span>
+ <div class="acts"><a class="btn sm ghost" href="{{ i.url }}" target="_blank" rel="noopener">Open</a>
+ <form method="post" action="{% url 'cms_media_delete' %}" data-confirm="Delete {{ i.name }} permanently?">{% csrf_token %}<input type="hidden" name="path" value="{{ i.path }}"><button class="btn sm danger" {% if i.used %}disabled title="In use"{% endif %}>Delete</button></form></div></div></div>
+{% empty %}<p class="muted">No files yet.</p>{% endfor %}</div>{% endblock %}

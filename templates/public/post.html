@@ -1,0 +1,18 @@
+{% extends "public/base.html" %}{% load portfolio %}
+{% block title %}{{ post.title }} — {{ site.site_name }}{% endblock %}
+{% block desc %}{{ post.excerpt }}{% endblock %}
+{% block ogtitle %}{{ post.title }}{% endblock %}{% block ogdesc %}{{ post.excerpt }}{% endblock %}
+{% block ogimage %}{% if post.thumbnail %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}">{% endif %}{% endblock %}
+{% block section %}blog{% endblock %}
+{% block content %}
+<article class="wrap article">
+  {% if preview %}<p class="flash info">Preview — status: <strong>{{ post.get_status_display }}</strong>. <a href="/cms/blog/{{ post.pk }}/edit/">Back to editing</a></p>{% endif %}
+  <a class="back" href="/#blog">Back to blog</a>
+  <p class="meta">{{ post.published_at|date:"d M Y" }} · {{ post.category }} · {{ post.reading_time }} min read</p>
+  <h1 class="page-h">{{ post.title }}</h1>
+  <p class="lead-sm">{{ post.excerpt }}</p>
+  <p class="meta">By {{ post.author }}</p>
+  {% if post.thumbnail %}<img class="case-hero" src="{{ post.thumbnail.url }}" alt="{{ post.title }}">{% endif %}
+  <div class="prose long">{{ post.content|richtext }}</div>
+</article>
+{% endblock %}

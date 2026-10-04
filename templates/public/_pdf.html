@@ -1,0 +1,12 @@
+{% load portfolio %}{% with src=file.name|pdf_url %}
+<div class="pdf-actions">
+  <a class="btn" href="{{ src }}" target="_blank" rel="noopener">Open in new tab</a>
+  <a class="btn ghost" href="{{ download_url }}">Download PDF</a>
+</div>
+<div class="pdf-frame">
+  <object data="{{ src }}#toolbar=1&view=FitH" type="application/pdf" aria-label="{{ label }}">
+    <iframe src="{{ src }}#toolbar=1&view=FitH" title="{{ label }}"></iframe>
+    <p class="empty">Your browser can't show PDFs inline. <a href="{{ src }}" target="_blank" rel="noopener">Open the PDF</a> or <a href="{{ download_url }}">download it</a>.</p>
+  </object>
+</div>
+{% endwith %}

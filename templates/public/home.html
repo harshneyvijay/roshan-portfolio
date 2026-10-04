@@ -1,0 +1,122 @@
+{% extends "public/base.html" %}{% load portfolio %}
+{% block section %}home{% endblock %}
+{% block content %}
+<section class="hero" id="home">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="hero-role">{{ profile.title }}</p>
+      <h1>{{ profile.name }}</h1>
+      <p class="tagline">{{ profile.tagline }}</p>
+      <p class="intro">{{ profile.intro }}</p>
+      <div class="cta">
+        <a class="btn" href="/#projects">View projects</a>
+        <a class="btn ghost" href="/resume/">View resume</a>
+        <a class="link" href="/#contact">Contact</a>
+      </div>
+    </div>
+    <figure class="hero-fig">
+      {% if profile.image %}<img src="{{ profile.image.url }}" alt="Portrait of {{ profile.name }}" width="520" height="640">{% else %}<div class="ph" role="img" aria-label="Profile image placeholder"></div>{% endif %}
+    </figure>
+  </div>
+</section>
+
+<section class="sec" id="about"><div class="wrap sec-grid">
+  <h2 class="sec-title">About</h2>
+  <div>
+    <div class="prose lead">{{ profile.about|richtext }}</div>
+    <dl class="facts">
+      <div><dt>Location</dt><dd>{{ profile.location }}</dd></div>
+      <div><dt>Focus</dt><dd>{{ profile.focus }}</dd></div>
+      <div><dt>Interests</dt><dd>{{ profile.interests }}</dd></div>
+    </dl>
+  </div>
+</div></section>
+
+<section class="sec alt" id="education"><div class="wrap sec-grid">
+  <h2 class="sec-title">Education</h2>
+  <ol class="edu">
+    {% for e in education %}
+    <li class="edu-item">
+      <p class="edu-years">{{ e.years }}</p>
+      <div>
+        <h3>{{ e.degree }}{% if e.field %}, {{ e.field }}{% endif %}</h3>
+        <p class="edu-inst">{{ e.institution }}{% if e.location %} — {{ e.location }}{% endif %}</p>
+        {% if e.grade %}<p class="meta">Grade: {{ e.grade }}</p>{% endif %}
+        <p>{{ e.description }}</p>
+      </div>
+      {% if e.logo %}<img class="edu-logo" src="{{ e.logo.url }}" alt="{{ e.institution }} logo" loading="lazy">{% endif %}
+    </li>
+    {% empty %}<li class="empty">Education entries added in the CMS appear here.</li>{% endfor %}
+  </ol>
+</div></section>
+
+<section class="sec" id="skills"><div class="wrap sec-grid">
+  <h2 class="sec-title">Skills</h2>
+  <div class="skills">
+    {% for cat, items in skills.items %}
+    <div class="skill-col"><h3>{{ cat }}</h3>
+      <ul>{% for s in items %}<li>{% if s.icon %}<span class="ico" aria-hidden="true">{{ s.icon }}</span>{% endif %}{{ s.name }}</li>{% endfor %}</ul>
+    </div>
+    {% empty %}<p class="empty">Skills added in the CMS appear here.</p>{% endfor %}
+  </div>
+</div></section>
+
+<section class="sec alt" id="projects"><div class="wrap">
+  <div class="sec-head"><h2 class="sec-title">Projects</h2>{% if project_total > 6 %}<a class="link" href="/projects/">All projects</a>{% endif %}</div>
+  {% include "public/_projects.html" %}
+</div></section>
+
+<section class="sec" id="journey"><div class="wrap">
+  <div class="sec-head"><h2 class="sec-title">Journey</h2></div>
+  <ol class="timeline">
+    {% for j in journey %}
+    <li class="tl-item reveal {% cycle 'left' 'right' %}">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <article class="tl-card">
+        <p class="tl-date">{{ j.date|date:"M Y" }}<span class="tl-cat">{{ j.get_category_display }}</span></p>
+        {% if j.image %}<img src="{{ j.image.url }}" alt="{{ j.title }}" loading="lazy">{% endif %}
+        <h3>{{ j.title }}</h3>
+        {% if j.location %}<p class="meta">{{ j.location }}</p>{% endif %}
+        <p>{{ j.description }}</p>
+        {% if j.link|is_real %}<a class="link" href="{{ j.link|href }}" target="_blank" rel="noopener">Learn more</a>{% endif %}
+      </article>
+    </li>
+    {% empty %}<li class="empty">Journey entries added in the CMS appear here.</li>{% endfor %}
+  </ol>
+</div></section>
+
+<section class="sec alt" id="blog"><div class="wrap">
+  <div class="sec-head"><h2 class="sec-title">Blog</h2><a class="link" href="/blog/">All articles</a></div>
+  {% include "public/_posts.html" %}
+</div></section>
+
+<section class="sec" id="certifications"><div class="wrap">
+  <div class="sec-head"><h2 class="sec-title">Licenses &amp; certifications</h2><a class="link" href="/certifications/">All certifications</a></div>
+  {% include "public/_certs.html" %}
+</div></section>
+
+<section class="sec alt" id="resume"><div class="wrap sec-grid">
+  <h2 class="sec-title">Resume</h2>
+  {% if resume %}
+  <a class="resume-card" href="/resume/">
+    {% if resume.preview_image %}<img src="{{ resume.preview_image.url }}" alt="Preview of {{ resume.title }}" loading="lazy">{% else %}<div class="ph doc"></div>{% endif %}
+    <span><strong>{{ resume.title }}</strong><span class="meta">{{ resume.version }} · updated {{ resume.uploaded_at|date:"M Y" }}</span><span class="link">View resume</span></span>
+  </a>
+  {% else %}<p class="empty">The active resume appears here once uploaded in the CMS.</p>{% endif %}
+</div></section>
+
+<section class="sec" id="contact"><div class="wrap sec-grid">
+  <h2 class="sec-title">Contact</h2>
+  <div class="contact">
+    <p class="lead-sm">Have a question or a project in mind? Send a message{% if profile.email|is_real or '@' in profile.email %} or write to <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>{% endif %}.</p>
+    <form method="post" action="/contact/" class="form">{% csrf_token %}
+      <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <label>Name<input name="name" required maxlength="120" autocomplete="name"></label>
+      <label>Email<input name="email" type="email" required autocomplete="email"></label>
+      <label>Message<textarea name="message" rows="6" required maxlength="5000"></textarea></label>
+      <button class="btn" type="submit">Send message</button>
+    </form>
+    <p class="meta">{{ profile.phone }} · {{ profile.location }}</p>
+  </div>
+</div></section>
+{% endblock %}

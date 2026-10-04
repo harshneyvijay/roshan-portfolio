@@ -1,0 +1,28 @@
+{% extends "cms/base.html" %}{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="head"><h1>{{ title }}</h1>{% if not singleton %}<a class="btn ghost" href="{% url 'cms_list' key %}">Back to list</a>{% endif %}</div>
+<form class="form-card" method="post" enctype="multipart/form-data">{% csrf_token %}
+ {% if form.non_field_errors %}<p class="err">{{ form.non_field_errors }}</p>{% endif %}
+ {% for f in form %}
+ <div class="field {% if f.field.widget.input_type == 'checkbox' %}chk{% endif %}">
+  {% if f.field.widget.input_type == 'checkbox' %}<label for="{{ f.id_for_label }}">{{ f }} {{ f.label }}</label>
+  {% else %}<label for="{{ f.id_for_label }}">{{ f.label }}</label>
+   {% if f.value and f.field.widget.input_type == 'file' %}<div class="cur">Current file:
+     {% if f.value.url %}{% if '.pdf' in f.value.name %}<a href="{{ f.value.url }}" target="_blank" rel="noopener">{{ f.value.name }}</a>{% else %}<br><img src="{{ f.value.url }}" alt="Current image">{% endif %}{% endif %}</div>{% endif %}
+   {{ f }}{% endif %}
+  {% if f.help_text %}<p class="help">{{ f.help_text }}</p>{% endif %}
+  {% for e in f.errors %}<p class="err">{{ e }}</p>{% endfor %}
+ </div>{% endfor %}
+ {% if key == 'projects' %}
+ <fieldset class="field" style="border:1px solid var(--line);padding:16px"><legend><b>Screenshots</b></legend>
+  {% for i in images %}<div class="shot-row"><img src="{{ i.image.url }}" alt="Screenshot {{ forloop.counter }}">
+   <input name="caption_img_{{ i.pk }}" value="{{ i.caption }}" placeholder="Caption" aria-label="Caption">
+   <input name="order_img_{{ i.pk }}" type="number" value="{{ i.order }}" aria-label="Order">
+   <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" name="delete_img_{{ i.pk }}"> Remove</label></div>{% endfor %}
+  {% if images %}<p class="help">Lower order numbers appear first. Tick “Remove” and save to delete.</p>{% endif %}
+  <label for="shots" style="margin-top:12px">Add screenshots (select several)</label>
+  <input id="shots" type="file" name="screenshots" accept="image/*" multiple>
+  {% if shots_error %}<p class="err">{{ shots_error }}</p>{% endif %}
+ </fieldset>{% endif %}
+ <button class="btn" type="submit">Save</button>
+</form>{% endblock %}

@@ -1,0 +1,11 @@
+<div class="grid3">
+{% for b in posts %}
+  <article class="card">
+    <a class="card-img" href="{{ b.get_absolute_url }}" tabindex="-1" aria-hidden="true">{% if b.thumbnail %}<img src="{{ b.thumbnail.url }}" alt="" loading="lazy">{% else %}<div class="ph"></div>{% endif %}</a>
+    <p class="meta">{{ b.published_at|date:"d M Y" }} · {{ b.category }}</p>
+    <h3><a href="{{ b.get_absolute_url }}">{{ b.title }}</a></h3>
+    <p>{{ b.excerpt }}</p>
+    <a class="link" href="{{ b.get_absolute_url }}">Read article</a>
+  </article>
+{% empty %}<p class="empty">Published articles appear here.</p>{% endfor %}
+</div>
