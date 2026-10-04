@@ -39,14 +39,56 @@ A portfolio site its owner can run entirely without touching code. A custom Djan
 | Frontend | Plain CSS and a tiny bit of vanilla JS |
 
 
-## Project Directory
+## Project Structure
 
 ```
 config/      settings and root URLs
 core/        models, public views, CMS views, validators, storage, seed command
 templates/   public/ and cms/ pages
 static/      site.css, cms.css, small JS files
+
+roshan-portfolio/
+├── manage.py
+├── requirements.txt
+├── render.yaml                    # Render deployment blueprint
+├── build.sh                       # install, collectstatic, migrate, create admin
+├── .env.example                   # copy to .env (never commit .env)
+├── README.md
+├── docs/
+│   └── TECHNICAL.md
+│
+├── config/                        # project settings
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── core/                          # Django app
+│   ├── models.py                  # data models + file cleanup signals
+│   ├── views.py                   # public pages, PDF streaming, sitemap
+│   ├── urls.py                    # public routes
+│   ├── cms_views.py               # CMS: auth, generic CRUD, media library
+│   ├── cms_urls.py                # /cms/ routes
+│   ├── validators.py              # image and PDF validation
+│   ├── storage.py                 # S3-compatible storage class
+│   ├── context_processors.py
+│   ├── templatetags/portfolio.py
+│   ├── management/commands/
+│   │   ├── seed.py                
+│   │   └── storagecheck.py        # storage diagnostics
+│   ├── migrations/
+│   ├── tests.py
+│   └── test_skills.py
+│
+├── templates/
+│   ├── public/                    # home, projects, blog, certifications, resume
+│   └── cms/                       # login, dashboard, list, form, media, messages
+│
+└── static/
+    ├── css/                       # site.css, cms.css
+    └── js/                        # site.js, cms.js
 ```
+
 
 
 ## Complete Walkthrough 
