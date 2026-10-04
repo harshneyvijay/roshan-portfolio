@@ -6,7 +6,7 @@
 {% block section %}projects{% endblock %}
 {% block content %}
 <article class="wrap case">
-  {% if preview %}<p class="flash info">Preview — {% if not p.published %}this project is unpublished and not visible to visitors.{% else %}published.{% endif %} <a href="/cms/projects/{{ p.pk }}/edit/">Back to editing</a></p>{% endif %}
+  {% if preview %}<p class="flash info">Preview — {% if not p.published %}this project is unpublished and not visible.{% else %}published.{% endif %} <a href="/cms/projects/{{ p.pk }}/edit/">Back to editing</a></p>{% endif %}
   <a class="back" href="/#projects">Back to projects</a>
   <header class="case-head">
     <h1 class="page-h">{{ p.title }}</h1>
