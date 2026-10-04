@@ -1,5 +1,5 @@
 # Portfolio + CMS
-
+Personal portfolio with its own content-management panel.
 
 ### Deployed at [https://portfolio-cms-413i.onrender.com/]
 
@@ -9,18 +9,10 @@
 ![CMS](pics/image5.png)
 
 
-## Portfolio Site
+## Portfolio - Hero Section
+(Remaining pics at the end.)
 
 ![Portfolio Site](pics/image1.png)
-
-![Portfolio Site](pics/image2.png)
-
-![Portfolio Site](pics/image3.png)
-
-
-## Contact Form
-
-![Contact](pics/image4.png)
 
 
 ## Flow
@@ -55,4 +47,21 @@ core/        models, public views, CMS views, validators, storage, seed command
 templates/   public/ and cms/ pages
 static/      site.css, cms.css, small JS files
 ```
+
+
+## Complete Walkthrough 
+
+### CMS
+![CMS](pics/image5.png)
+
+### Portfolio Site - Hero
+![Portfolio Site](pics/image1.png)
+
+![Portfolio Site](pics/image2.png)
+
+![Portfolio Site](pics/image3.png)
+
+
+### Contact Form
+![Contact](pics/image4.png)
 
