@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: portfolio-cms
+    name: antony-roshan-portfolio
     runtime: python
     plan: free
     buildCommand: ./build.sh
@@ -33,4 +33,6 @@ services:
       - key: DJANGO_SUPERUSER_EMAIL
         sync: false
       - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+      - key: AWS_S3_CUSTOM_DOMAIN
         sync: false
