@@ -8,6 +8,6 @@
   {% if r %}
     <p class="meta">{{ r.title }} · {{ r.version }} · updated {{ r.uploaded_at|date:"d M Y" }}</p>
     {% include "public/_pdf.html" with file=r.pdf label=r.title %}
-  {% else %}<p class="empty">No resume is active yet. Upload and activate one in the CMS.</p>{% endif %}
+  {% else %}<p class="empty">No resume is active yet.</p>{% endif %}
 </article>
 {% endblock %}
